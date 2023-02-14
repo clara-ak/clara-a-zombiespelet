@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghostbusters</title>
+</head>
+
+<body>
+
+    <script src="http://koda.nu/simple.js">
+        var ghosts = [];
+
+        let healthBarWidth1 = 500
+        let healthBarWidth2 = 1300
+
+        var player1 = { x: random(totalWidth), y: random(totalHeight), speed: 5 };
+        var player2 = { x: random(totalWidth), y: random(totalHeight), speed: 7 };
+
+        var i = 0;
+
+
+        //Gör så att ghostar spawnar in när i-värdet som börjar på 0 blir 100
+        while (i < 100) {
+            //skapar flera spöken med samma värden
+            ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 5) });
+
+
+            //Varje gång ett spöke laddas in så ökar i-värdet
+            i += 1;
+
+        }
+
+
+
+        function update() {
+
+            fill("black");
+
+            circle(player1.x, player1.y, player1.speed, "pink");
+            circle(player2.x, player2.y, player2.speed, "yellow");
+
+            line(100, 750, healthBarWidth1, 750, 30, "green");
+            line(900, 750, healthBarWidth2, 750, 30, "green");
+
+            //I-värdet startar på 0
+            var i = 0;
+
+            //Koden körs medans i-värdet är 5 eller under
+            while (i < 7) {
+                //variableln ghost är samma sak som ghosts med värdet av i-värdet
+                var ghost = ghosts[i];
+
+
+
+                picture(ghost.x, ghost.y, "./pixil-frame-0.png")
+
+                if (ghost.x < player1.x)
+
+                    ghost.x += ghost.speed;
+
+                else
+
+                    ghost.x -= ghost.speed
+
+                if (ghost.y < player1.y)
+
+                    ghost.y += ghost.speed;
+
+                else
+
+                    ghost.y -= ghost.speed
+
+                if (distance(player1, ghost) < 5) {
+
+                    healthBarWidth1 -= 1
+                }
+
+                if (keyboard.d)
+                    player1.x += player1.speed;
+
+                if (keyboard.a)
+                    player1.x -= player1.speed;
+
+                if (keyboard.w)
+                    player1.y -= player1.speed;
+
+                if (keyboard.s)
+                    player1.y += player1.speed;
+
+
+                if (healthBarWidth1 <= 100) {
+
+                    alert("Game over");
+
+                    //koden slutar köras
+                    stopUpdate();
+
+                }
+
+                i += 1;
+
+            }
+
+
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

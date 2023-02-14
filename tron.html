@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tron</title>
+</head>
+
+<body>
+    <script src="http://koda.nu/simple.js">
+        var player = { x: 100, y: 100, size: 500, xSpeed: 5, ySpeed: 0 };
+
+        function update() {
+            with (player) {
+                rectangle(x, y, size, size, "pink");
+                x += xSpeed;
+                y += ySpeed;
+
+                if (keyboard.w) {
+                    ySpeed = -5;
+                    xSpeed = 0;
+                }
+                if (keyboard.s) {
+                    ySpeed = 5;
+                    xSpeed = 0;
+                }
+                if (keyboard.a) {
+                    ySpeed = 0;
+                    xSpeed = -5;
+                }
+                if (keyboard.d) {
+                    ySpeed = 0;
+                    xSpeed = 5;
+                }
+            }
+    }
+    </script>
+</body>
+
+</html>
