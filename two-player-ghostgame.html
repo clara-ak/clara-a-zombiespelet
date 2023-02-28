@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghostbusters</title>
+</head>
+
+<body>
+
+    <script src="http://koda.nu/simple.js">
+        var ghosts = [];
+
+
+        let healthBarWidth1 = 500
+        let healthBarWidth2 = 1300
+
+        var player1 = { x: random(totalWidth), y: random(totalHeight), speed: 10 };
+        var player2 = { x: random(totalWidth), y: random(totalHeight), speed: 10 };
+
+        var i = 0;
+
+
+        //Gör så att ghostar spawnar in när i-värdet som börjar på 0 blir 100
+        while (i < 100) {
+            //skapar flera spöken med samma värden
+            ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 5) });
+
+
+            //Varje gång ett spöke laddas in så ökar i-värdet
+            i += 1;
+
+        }
+
+
+
+        function update() {
+            //fyller skärmen med svart, istället för clearScreen
+            fill("black");
+
+            picture(player1.x, player1.y, "./player.png");
+            picture(player2.x, player2.y, "./player.png");
+
+            line(100, 750, healthBarWidth1, 750, 30, "green");
+            line(900, 750, healthBarWidth2, 750, 30, "green");
+
+            //I-värdet startar på 0
+            var i = 0;
+
+            //Koden körs medans i-värdet är 5 eller under
+            while (i < 7) {
+                //variableln ghost är samma sak som ghosts med värdet av i-värdet
+                var ghost = ghosts[i];
+
+                picture(ghost.x, ghost.y, "./ghost.png");
+
+                //Ghost jämför vilken player som har minst distance och väljer då vilken de ska jaga
+                var targetPlayer = distance(player1, ghost) < distance(player2, ghost) ? player1 : player2;
+
+                if (ghost.x < targetPlayer.x)
+                    //spöket åker på x-axeln med ghost.speed
+                    ghost.x += ghost.speed;
+                else
+                    ghost.x -= ghost.speed;
+
+                if (ghost.y < targetPlayer.y)
+                    ghost.y += ghost.speed;
+                else
+                    ghost.y -= ghost.speed;
+
+                if (distance(targetPlayer, ghost) < 5) {
+                    //ifall tageten är player 1 så går player 1's healthbar ner
+                    if (targetPlayer === player1)
+                        healthBarWidth1 -= 1;
+                    else
+                        healthBarWidth2 -= 1;
+                }
+
+                i += 1;
+            }
+
+            if (keyboard.d)
+                player1.x += player1.speed;
+            if (keyboard.a)
+                player1.x -= player1.speed;
+
+            if (keyboard.w)
+                player1.y -= player1.speed;
+
+            if (keyboard.s)
+                player1.y += player1.speed;
+
+            if (keyboard.right)
+                player2.x += player2.speed;
+
+            if (keyboard.left)
+                player2.x -= player2.speed;
+
+            if (keyboard.up)
+                player2.y -= player2.speed;
+
+            if (keyboard.down)
+                player2.y += player2.speed;
+
+            if (healthBarWidth1 <= 100) {
+                alert("Game over");
+                stopUpdate();
+            }
+
+            if (healthBarWidth2 <= 900) {
+                alert("Game over");
+                stopUpdate();
+            }
+        }
+
+    </script>
+
+
+</body>
+
+</html>

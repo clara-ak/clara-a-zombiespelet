@@ -13,6 +13,7 @@
     <script src="http://koda.nu/simple.js">
         var ghosts = [];
 
+
         let healthBarWidth1 = 500
         let healthBarWidth2 = 1300
 
@@ -36,11 +37,11 @@
 
 
         function update() {
-
+            //fyller skärmen med svart, istället för clearScreen
             fill("black");
 
-            circle(player1.x, player1.y, player1.speed, "pink");
-            circle(player2.x, player2.y, player2.speed, "yellow");
+            picture(player1.x, player1.y, "./player.png");
+            picture(player2.x, player2.y, "./player.png");
 
             line(100, 750, healthBarWidth1, 750, 30, "green");
             line(900, 750, healthBarWidth2, 750, 30, "green");
@@ -55,10 +56,10 @@
 
 
 
-                picture(ghost.x, ghost.y, "./pixil-frame-0.png")
-
+                picture(ghost.x, ghost.y, "./ghost.png")
+                //ifall 
                 if (ghost.x < player1.x)
-
+                    //spöket åker på x-axeln med ghost.speed
                     ghost.x += ghost.speed;
 
                 else
@@ -91,11 +92,57 @@
                     player1.y += player1.speed;
 
 
+
+                //player2
+                if (ghost.x < player2.x)
+
+                    ghost.x += ghost.speed;
+
+                else
+
+                    ghost.x -= ghost.speed
+
+                if (ghost.y < player2.y)
+
+                    ghost.y += ghost.speed;
+
+                else
+
+                    ghost.y -= ghost.speed
+
+                if (distance(player2, ghost) < 5) {
+
+                    healthBarWidth2 -= 1
+                }
+
+                if (keyboard.right)
+                    player2.x += player2.speed;
+
+                if (keyboard.left)
+                    player2.x -= player2.speed;
+
+                if (keyboard.up)
+                    player2.y -= player2.speed;
+
+                if (keyboard.down)
+                    player2.y += player2.speed;
+
+
+
+
+
                 if (healthBarWidth1 <= 100) {
 
                     alert("Game over");
 
                     //koden slutar köras
+                    stopUpdate();
+
+                }
+                if (healthBarWidth2 <= 900) {
+
+                    alert("Game over");
+
                     stopUpdate();
 
                 }
