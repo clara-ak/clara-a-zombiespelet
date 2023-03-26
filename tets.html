@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghostbusters</title>
+</head>
+
+<body>
+
+    <script src="http://koda.nu/simple.js">
+        var ghosts = [];
+
+
+        let healthBarWidth = 500
+
+        var player = { x: random(totalWidth), y: random(totalHeight), speed: 10 };
+
+        var i = 0;
+
+        var bullet = { x: player.x, y: player.y, speed: 15 };
+
+        var bullets = [];
+
+        //Gör så att ghostar spawnar in när i-värdet som börjar på 0 blir 100
+        while (i < 7) {
+            //skapar flera spöken med samma värden
+            ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 5) });
+
+
+            //Varje gång ett spöke laddas in så ökar i-värdet
+            i += 1;
+
+        }
+
+        let thememusic = new Audio("GhostBusters-theme-song.mp3");
+
+
+        function update() {
+
+            // Define an array to store the bullets
+
+
+            for (var i = 0; i < bullets.length; i++) {
+                var bullet = bullets[i];
+                // Move the bullet by adding its speed to its x and y coordinates
+                bullet.x += bullet.speed;
+                bullet.y += bullet.speed;
+                // Draw the bullet on the canvas
+                circle(bullet.x, bullet.y, 5, "red");
+
+                // Remove the bullet if it goes out of the screen
+                if (bullet.x > totalWidth || bullet.y > totalHeight) {
+                    bullets.splice(i, 1);
+                }
+            }
+
+
+            thememusic.play();
+
+
+            //fyller skärmen med svart, istället för clearScreen
+            fill("black");
+
+
+
+            picture(player.x, player.y, "./img/player-1.png");
+
+            picture(90, 530, "./img/player-1-headshot.png");
+
+            line(100, 750, healthBarWidth, 750, 40, "green");
+
+            //gör så att bullets kommer ifrån spelarens position vid tillfället
+            bullet.x = player.x;
+            bullet.y = player.y;
+
+
+
+            text(100, 650, 15, "Player 1", "white");
+
+            //I-värdet startar på 0
+            var i = 0;
+
+            //Koden körs medans i-värdet är 5 eller under
+            while (i < 7) {
+
+                //variableln ghost är samma sak som ghosts med värdet av i-värdet
+                var ghost = ghosts[i];
+
+                picture(ghost.x, ghost.y, "./img/ghost.png");
+
+                if (ghost.x < player.x)
+                    //spöket åker på x-axeln med ghost.speed
+                    ghost.x += ghost.speed;
+                else
+                    ghost.x -= ghost.speed;
+
+                if (ghost.y < player.y)
+                    ghost.y += ghost.speed;
+                else
+                    ghost.y -= ghost.speed;
+
+                if (distance(player, ghost) < 10) {
+                    healthBarWidth -= 5
+                }
+
+                i += 1;
+            }
+
+            //player 1 controls
+            if (keyboard.d)
+                player.x += player.speed;
+
+            if (keyboard.a)
+                player.x -= player.speed;
+
+            if (keyboard.w)
+                player.y -= player.speed;
+
+            if (keyboard.s)
+                player.y += player.speed;
+
+
+            if (keyboard.space) {
+                circle(bullet.x, bullet.y, 10, "red", bullet.speed);
+
+                bullet.x += Math.cos(player.rotation) * bullet.speed;
+                bullet.y += Math.sin(player.rotation) * bullet.speed;
+            }
+
+
+            //Spelet slutar ifall healthbaren går ner tills där linjen började
+            if (healthBarWidth <= 100) {
+
+                thememusic.pause();
+                alert("Game over");
+                stopUpdate();
+            }
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

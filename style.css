@@ -1,0 +1,110 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    width: 100vw;
+    height: 100vh;
+  }
+
+.navbar {
+    display: flex;
+    justify-content: space-evenly;
+    background-color:black;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+  }
+
+.navbar a {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    text-decoration: none;
+    height: 20px;
+    font-family:monospace;
+    color: cornflowerblue;
+}
+.navbar a:hover {
+    color: lightgrey;
+
+}
+.logo a{
+    display: flex;
+    color: cornflowerblue;
+    font-size: 25px;
+    font-family: fantasy;
+    align-self: center;
+}
+.container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+h2 {
+    display: flex;
+    align-self: center;
+    font-family: Arial;
+}
+.container h4{
+    display: flex;
+    align-self: center;
+    font-family: Arial;
+    font-weight: 300;
+}
+
+.item-1{
+    display: flex;
+    width: 300px;
+    height: 70px;
+    align-self: center;
+    padding-left: 10px;
+    margin-top: 50px;
+
+    background-color: blue;
+}
+
+.item-1 a{
+    display: flex;
+    color: white;
+    text-decoration: none;
+    align-self: center;
+    padding-left: 30%;
+    padding-right: 100px;
+    font-family:monospace;
+}
+.item-2{
+    display: flex;
+    width: 300px;
+    height: 70px;
+    align-self: center;
+    padding-left: 10px;
+    margin-top: 50px;
+
+    background-color: blue;
+}
+
+.item-2 a{
+    display: flex;
+    color: white;
+    text-decoration: none;
+    align-self: center;
+    padding-right: 100px;
+    padding-left: 30%;
+    font-family:monospace;
+}
+
+.item {
+    display: flex;
+    width: 100px;
+    padding-right: 150px;
+    padding-left: 150px;
+    flex-direction: column;
+    background-color: aquamarine;
+}
+
+.item h3{
+    font-family: monospace;
+}

@@ -20,11 +20,15 @@
         var player1 = { x: random(totalWidth), y: random(totalHeight), speed: 10 };
         var player2 = { x: random(totalWidth), y: random(totalHeight), speed: 10 };
 
+        /*
+        var player1Score = 0;
+        var player2Score = 0;
+        */
         var i = 0;
 
 
         //Gör så att ghostar spawnar in när i-värdet som börjar på 0 blir 100
-        while (i < 100) {
+        while (i < 7) {
             //skapar flera spöken med samma värden
             ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 5) });
 
@@ -34,27 +38,40 @@
 
         }
 
+        let thememusic = new Audio("GhostBusters-theme-song.mp3");
 
 
         function update() {
+            thememusic.play();
+
+
             //fyller skärmen med svart, istället för clearScreen
             fill("black");
 
-            picture(player1.x, player1.y, "./player.png");
-            picture(player2.x, player2.y, "./player.png");
+
+
+            picture(player1.x, player1.y, "./img/player-1.png");
+            picture(player2.x, player2.y, "./img/player-2.png");
+
+            picture(90, 530, "./img/player-1-headshot.png");
+            picture(890, 530, "./img/player-2-headshot.png");
 
             line(100, 750, healthBarWidth1, 750, 30, "green");
             line(900, 750, healthBarWidth2, 750, 30, "green");
+
+            text(100, 650, 15, "Player 1", "white");
+            text(900, 650, 15, "Player 2", "white");
 
             //I-värdet startar på 0
             var i = 0;
 
             //Koden körs medans i-värdet är 5 eller under
             while (i < 7) {
+
                 //variableln ghost är samma sak som ghosts med värdet av i-värdet
                 var ghost = ghosts[i];
 
-                picture(ghost.x, ghost.y, "./ghost.png");
+                picture(ghost.x, ghost.y, "./img/ghost.png");
 
                 //Ghost jämför vilken player som har minst distance och väljer då vilken de ska jaga
                 var targetPlayer = distance(player1, ghost) < distance(player2, ghost) ? player1 : player2;
@@ -73,16 +90,18 @@
                 if (distance(targetPlayer, ghost) < 5) {
                     //ifall tageten är player 1 så går player 1's healthbar ner
                     if (targetPlayer === player1)
-                        healthBarWidth1 -= 1;
+                        healthBarWidth1 -= 2;
                     else
-                        healthBarWidth2 -= 1;
+                        healthBarWidth2 -= 2;
                 }
 
                 i += 1;
             }
 
+            //player 1 controls
             if (keyboard.d)
                 player1.x += player1.speed;
+
             if (keyboard.a)
                 player1.x -= player1.speed;
 
@@ -92,26 +111,40 @@
             if (keyboard.s)
                 player1.y += player1.speed;
 
-            if (keyboard.right)
+            //if (keyboard.f)
+
+            //player 2 controls
+            if (keyboard.right) {
                 player2.x += player2.speed;
+            }
+            if (keyboard.left) {
 
-            if (keyboard.left)
                 player2.x -= player2.speed;
+            }
+            if (keyboard.up) {
 
-            if (keyboard.up)
                 player2.y -= player2.speed;
+            }
+            if (keyboard.down) {
 
-            if (keyboard.down)
                 player2.y += player2.speed;
+            }
 
+            //if (keyboard.space)
+
+            //Spelet slutar ifall healthbaren går ner tills där linjen började
             if (healthBarWidth1 <= 100) {
+ 
+                thememusic.pause();
                 alert("Game over");
                 stopUpdate();
             }
 
             if (healthBarWidth2 <= 900) {
+                thememusic.pause();
                 alert("Game over");
                 stopUpdate();
+                
             }
         }
 
