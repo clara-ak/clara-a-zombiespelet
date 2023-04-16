@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ghostbusters</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
@@ -28,9 +29,9 @@
 
 
         //Gör så att ghostar spawnar in när i-värdet som börjar på 0 blir 100
-        while (i < 7) {
+        while (i < 15) {
             //skapar flera spöken med samma värden
-            ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 5) });
+            ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(5) });
 
 
             //Varje gång ett spöke laddas in så ökar i-värdet
@@ -45,8 +46,7 @@
             thememusic.play();
 
 
-            //fyller skärmen med svart, istället för clearScreen
-            fill("black");
+            clearScreen()
 
 
 
@@ -66,7 +66,7 @@
             var i = 0;
 
             //Koden körs medans i-värdet är 5 eller under
-            while (i < 7) {
+            while (i < 15) {
 
                 //variableln ghost är samma sak som ghosts med värdet av i-värdet
                 var ghost = ghosts[i];

@@ -1,9 +1,14 @@
+* {
+    margin: 0%;
+}
 body {
     display: flex;
     flex-direction: column;
-    background-color:white;
     width: 100vw;
     height: 100vh;
+    background-image: url(./presentation\ 1.webp);
+    background-size: cover;
+
   }
 
 .navbar {
@@ -47,6 +52,7 @@ h2 {
     display: flex;
     align-self: center;
     font-family: Arial;
+    margin-top: 20px;
 }
 .container h4{
     display: flex;
@@ -98,13 +104,18 @@ h2 {
 
 .item {
     display: flex;
-    width: 100px;
+    width: 150px;
     padding-right: 150px;
     padding-left: 150px;
     flex-direction: column;
-    background-color: aquamarine;
+    background-color:cornflowerblue;
 }
 
 .item h3{
+    font-family: monospace;
+    margin-top: 20px;
+}
+
+.item p{
     font-family: monospace;
 }
