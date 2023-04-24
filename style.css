@@ -6,7 +6,7 @@ body {
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    background-image: url(./presentation\ 1.webp);
+    background-image: url(./img/presentation\ 1.webp);
     background-size: cover;
 
   }
@@ -51,14 +51,15 @@ body {
 h2 {
     display: flex;
     align-self: center;
-    font-family: Arial;
+    font-family: monospace;
     margin-top: 20px;
+    color: white;
 }
 .container h4{
     display: flex;
     align-self: center;
-    font-family: Arial;
-    font-weight: 300;
+    font-family: monospace;
+    color: white;
 }
 
 .item-1{
