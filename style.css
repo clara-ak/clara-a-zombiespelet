@@ -120,3 +120,20 @@ h2 {
 .item p{
     font-family: monospace;
 }
+
+.game-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.back-button {
+    padding: 20px;
+    background-color: aqua;
+    border-radius: 10px;
+    text-decoration: dotted;
+    z-index: 1;
+    margin: 10px;
+    font-family: monospace;
+    font-size: 22px;
+}

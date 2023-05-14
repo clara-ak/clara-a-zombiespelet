@@ -10,183 +10,185 @@
 </head>
 
 <body>
+    <div class="game-container">
+        <a class="back-button" href="./main.html">Menu</a>
+        <script src="simple.js">
+            //skapar en array för spöken
+            let ghosts = [];
 
-    <script src="simple.js">
-        //skapar en array för spöken
-        let ghosts = [];
+            let bulletShot = false;
+            let playerAimX = 0;
+            let playerAimY = 0;
 
-        let bulletShot = false;
-        let playerAimX = 0;
-        let playerAimY = 0;
+            let speedBoost = false;
 
-        let speedBoost = false;
-
-        let healthBarWidth = 500
-        //Skapar en spelare med random kordinater
-        let player = { x: random(totalWidth), y: random(totalHeight), speed: 10 };
-
-        
-
-        //Bullet ska komma ifrån spelaren
-        let bullet = { x: player.x, y: player.y };
-        let bulletShoot = false
-
-        let playerScore = 0;
-        
-        var i = 0;
-        //Gör så att ghostar spawnar in när i-värdet som börjar på 0 blir 100
-        while (i < 16) {
-            //skapar flera spöken med samma värden
-            ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 3), health : 100 });
-
-
-            //Varje gång ett spöke laddas in så ökar i-värdet
-            i += 1;
-
-        }
-
-        let thememusic = new Audio("./sound/GhostBusters-theme-song.mp3");
-        let healthsoundeffect = new Audio("./sound/roblox-death-sound_1.mp3");
-        let shootsoundeffect = new Audio("./sound/blaster-2-81267.mp3");
-
-        function createGhost() {
-            ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 3), health:100 });
-        }
+            let healthBarWidth = 500
+            //Skapar en spelare med random kordinater
+            let player = { x: random(totalWidth), y: random(totalHeight), speed: 10 };
 
 
 
-        function update() {
-            //Spelar thememusic med volym på 0.5
-            thememusic.play();
-            thememusic.volume = 0.5;
+            //Bullet ska komma ifrån spelaren
+            let bullet = { x: player.x, y: player.y };
+            let bulletShoot = false
 
+            let playerScore = 0;
 
-            clearScreen()
-
-            picture(player.x, player.y, "./img/player-1.png");
-
-            picture(90, 530, "./img/player-1-headshot.png");
-
-            line(100, 750, healthBarWidth, 750, 40, "green");
-
-            //Räknar ut  subrahera dens x och y med spelaren. 
-            if (bulletShoot == true) {
-                if (bulletShot === true) {
-                    playerAimX = mouse.x - player.x;
-                    playerAimY = mouse.y - player.y;
-                    bulletShot = false;
-                }
-                //Använder pytagoras för att räkna ut åt vilket håll bullet ska skjutas. Fel inte vilket håll utan hur långt till musen från spelaren
-                let aimDistance = sqrt(playerAimX ** 2 + playerAimY ** 2);
-                circle(bullet.x, bullet.y, 5, "cyan");
-                //fråga sebba vad det gör
-                bullet.x += (10 * playerAimX) / aimDistance;
-                bullet.y += (10 * playerAimY) / aimDistance;
-            }
-
-            if (speedBoost == true){
-                //när speedBoost är true när space hålls inne ändras player speed
-                player.speed = 30;
-            }
-            else {
-                //när space inte hålls inne och speedBoost inte är sant så är player.speed som vanligt
-                player.speed = 10;
-            }
-
-
-            text(100, 650, 15, "Player 1", "white");
-
-            //I-värdet startar på 0
             var i = 0;
+            //Gör så att ghostar spawnar in när i-värdet som börjar på 0 blir 100
+            while (i < 16) {
+                //skapar flera spöken med samma värden
+                ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 3), health: 100 });
 
-            //Koden körs medans i-värdet är 5 eller under
-            while (i < ghosts.length) {
 
-                //variableln ghost är samma sak som ghosts med värdet av i-värdet
-                var ghost = ghosts[i];
-                                
-                text(100, 50, 15, "Player Score: "+ playerScore, "white");
-    
-                picture(ghost.x, ghost.y, "./img/ghost.png");
-                rectangle(ghost.x + 30, ghost.y - 5, 38 * (ghost.health /100), 5, "red");
-
-                if (ghost.x < player.x)
-                    //spöket åker på x-axeln med ghost.speed
-                    ghost.x += ghost.speed;
-                else
-                    ghost.x -= ghost.speed;
-
-                if (ghost.y < player.y)
-                    ghost.y += ghost.speed;
-                else
-                    ghost.y -= ghost.speed;
-
-                //När man kommer nära ett spöke så går healthbaren ner
-                if (distance(player, ghost) < 20) {
-                    healthBarWidth -= 5
-                    healthsoundeffect.play();
-                }
-                if (distance(ghost.x + 50, ghost.y + 50, bullet.x, bullet.y) < 40 && bulletShoot === true) {
-                    console.log("hit ghost" + i)
-                    ghost.health -= 50;
-                    //När man har träffat ett spöka så försvinner bullet
-                    bulletShoot = false;
-                }
-                if (ghost.health <= 0){
-                    playerScore += 1;
-                    //Spöket försvinner ifall healthbar går ner till 0
-                    ghosts.splice(i, 1);
-                    //Functionen createGhost spawnar in ett nytt spöka på random kordinater
-                    createGhost();
-                }
+                //Varje gång ett spöke laddas in så ökar i-värdet
                 i += 1;
-            }
-
-            if (keyboard.d)
-                player.x += player.speed;
-
-            if (keyboard.a)
-                player.x -= player.speed;
-
-            if (keyboard.w)
-                player.y -= player.speed;
-
-            if (keyboard.s)
-                player.y += player.speed;
-
-            if (mouse.left) {
-                shootsoundeffect.play();
-                bulletShoot = true;
-                bulletShot = true;
-                bullet.x = player.x + 35;
-                bullet.y = player.y + 35;
 
             }
-            if(keyboard.space){
-                //speedBoost aktiveras
-                speedBoost = true;
-            }
-            else{
-                //när space inte trycks ner är inte speedBost aktiverat
-                speedBoost = false;
+
+            let thememusic = new Audio("./sound/GhostBusters-theme-song.mp3");
+            let healthsoundeffect = new Audio("./sound/roblox-death-sound_1.mp3");
+            let shootsoundeffect = new Audio("./sound/blaster-2-81267.mp3");
+
+            function createGhost() {
+                ghosts.push({ x: random(totalWidth), y: random(totalHeight), speed: random(1, 3), health: 100 });
             }
 
-            //Spelet slutar ifall healthbaren går ner tills där linjen började
-            if (healthBarWidth <= 100) {
-                //pasusar musiken
-                thememusic.pause();
-                text(totalWidth/2 - 250, totalHeight/2, 50,"Game over","Red" );
-                //stoppar så att update inte körs igen
-                stopUpdate();
-                //Efter 2 sekunder förs man tillbaka till menyn
-                setTimeout(() => {
-                    window.open("./main.html", "_self")
-                }, 2000);
-                
-            }
 
-        }
-    </script>
+
+            function update() {
+                //Spelar thememusic med volym på 0.5
+                thememusic.play();
+                thememusic.volume = 0.5;
+
+
+                clearScreen()
+
+                picture(player.x, player.y, "./img/player-1.png");
+
+                picture(90, 530, "./img/player-1-headshot.png");
+
+                line(100, 750, healthBarWidth, 750, 40, "green");
+
+                //Räknar ut  subrahera dens x och y med spelaren. 
+                if (bulletShoot == true) {
+                    if (bulletShot === true) {
+                        playerAimX = mouse.x - player.x;
+                        playerAimY = mouse.y - player.y;
+                        bulletShot = false;
+                    }
+                    //Använder pytagoras för att räkna ut åt vilket håll bullet ska skjutas. Fel inte vilket håll utan hur långt till musen från spelaren
+                    let aimDistance = sqrt(playerAimX ** 2 + playerAimY ** 2);
+                    circle(bullet.x, bullet.y, 5, "cyan");
+                    //fråga sebba vad det gör
+                    bullet.x += (10 * playerAimX) / aimDistance;
+                    bullet.y += (10 * playerAimY) / aimDistance;
+                }
+
+                if (speedBoost == true) {
+                    //när speedBoost är true när space hålls inne ändras player speed
+                    player.speed = 30;
+                }
+                else {
+                    //när space inte hålls inne och speedBoost inte är sant så är player.speed som vanligt
+                    player.speed = 10;
+                }
+
+
+                text(100, 650, 15, "Player 1", "white");
+
+                //I-värdet startar på 0
+                var i = 0;
+
+                //Koden körs medans i-värdet är 5 eller under
+                while (i < ghosts.length) {
+
+                    //variableln ghost är samma sak som ghosts med värdet av i-värdet
+                    var ghost = ghosts[i];
+
+                    text(100, 50, 15, "Player Score: " + playerScore, "white");
+
+                    picture(ghost.x, ghost.y, "./img/ghost.png");
+                    rectangle(ghost.x + 30, ghost.y - 5, 38 * (ghost.health / 100), 5, "red");
+
+                    if (ghost.x < player.x)
+                        //spöket åker på x-axeln med ghost.speed
+                        ghost.x += ghost.speed;
+                    else
+                        ghost.x -= ghost.speed;
+
+                    if (ghost.y < player.y)
+                        ghost.y += ghost.speed;
+                    else
+                        ghost.y -= ghost.speed;
+
+                    //När man kommer nära ett spöke så går healthbaren ner
+                    if (distance(player, ghost) < 20) {
+                        healthBarWidth -= 5
+                        healthsoundeffect.play();
+                    }
+                    if (distance(ghost.x + 50, ghost.y + 50, bullet.x, bullet.y) < 40 && bulletShoot === true) {
+                        console.log("hit ghost" + i)
+                        ghost.health -= 50;
+                        //När man har träffat ett spöka så försvinner bullet
+                        bulletShoot = false;
+                    }
+                    if (ghost.health <= 0) {
+                        playerScore += 1;
+                        //Spöket försvinner ifall healthbar går ner till 0
+                        ghosts.splice(i, 1);
+                        //Functionen createGhost spawnar in ett nytt spöka på random kordinater
+                        createGhost();
+                    }
+                    i += 1;
+                }
+
+                if (keyboard.d)
+                    player.x += player.speed;
+
+                if (keyboard.a)
+                    player.x -= player.speed;
+
+                if (keyboard.w)
+                    player.y -= player.speed;
+
+                if (keyboard.s)
+                    player.y += player.speed;
+
+                if (mouse.left) {
+                    shootsoundeffect.play();
+                    bulletShoot = true;
+                    bulletShot = true;
+                    bullet.x = player.x + 35;
+                    bullet.y = player.y + 35;
+
+                }
+                if (keyboard.space) {
+                    //speedBoost aktiveras
+                    speedBoost = true;
+                }
+                else {
+                    //när space inte trycks ner är inte speedBost aktiverat
+                    speedBoost = false;
+                }
+
+                //Spelet slutar ifall healthbaren går ner tills där linjen började
+                if (healthBarWidth <= 100) {
+                    //pasusar musiken
+                    thememusic.pause();
+                    text(totalWidth / 2 - 250, totalHeight / 2, 50, "Game over", "Red");
+                    //stoppar så att update inte körs igen
+                    stopUpdate();
+                    //Efter 2 sekunder förs man tillbaka till menyn
+                    setTimeout(() => {
+                        window.open("./main.html", "_self")
+                    }, 2000);
+
+                }
+
+            }
+        </script>
+    </div>
 
 
 </body>
