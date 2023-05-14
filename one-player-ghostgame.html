@@ -25,14 +25,15 @@
         //Skapar en spelare med random kordinater
         let player = { x: random(totalWidth), y: random(totalHeight), speed: 10 };
 
-        let i = 0;
+        
 
         //Bullet ska komma ifrån spelaren
         let bullet = { x: player.x, y: player.y };
         let bulletShoot = false
 
         let playerScore = 0;
-
+        
+        var i = 0;
         //Gör så att ghostar spawnar in när i-värdet som börjar på 0 blir 100
         while (i < 16) {
             //skapar flera spöken med samma värden
@@ -55,6 +56,7 @@
 
 
         function update() {
+            //Spelar thememusic med volym på 0.5
             thememusic.play();
             thememusic.volume = 0.5;
 
@@ -74,9 +76,10 @@
                     playerAimY = mouse.y - player.y;
                     bulletShot = false;
                 }
-                //Använder pytagoras för att räkna ut åt vilket håll bullet ska skjutas
+                //Använder pytagoras för att räkna ut åt vilket håll bullet ska skjutas. Fel inte vilket håll utan hur långt till musen från spelaren
                 let aimDistance = sqrt(playerAimX ** 2 + playerAimY ** 2);
                 circle(bullet.x, bullet.y, 5, "cyan");
+                //fråga sebba vad det gör
                 bullet.x += (10 * playerAimX) / aimDistance;
                 bullet.y += (10 * playerAimY) / aimDistance;
             }
@@ -170,9 +173,10 @@
 
             //Spelet slutar ifall healthbaren går ner tills där linjen började
             if (healthBarWidth <= 100) {
-
+                //pasusar musiken
                 thememusic.pause();
                 text(totalWidth/2 - 250, totalHeight/2, 50,"Game over","Red" );
+                //stoppar så att update inte körs igen
                 stopUpdate();
                 //Efter 2 sekunder förs man tillbaka till menyn
                 setTimeout(() => {
@@ -182,7 +186,7 @@
             }
 
         }
-
+        //Namn på ljudfiler och bilders
     </script>
 
 
